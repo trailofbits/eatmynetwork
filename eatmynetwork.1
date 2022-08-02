@@ -1,0 +1,49 @@
+.TH EATMYNETWORK 1 2022-08-02 "1.0.0" "User Commands"
+
+.SH NAME
+eatmynetwork \- run a program with (minimal) network sandboxing
+
+.SH SYNOPSIS
+\fBeatmynetwork\fR \fI<command>\fR \fI[arg ...]\fR
+
+.SH DESCRIPTION
+.B eatmynetwork
+takes a
+.I command
+and optional arguments, and runs them with a minimal network sandbox,
+effectively pretending as if the host machine has no network connection.
+
+.B eatmynetwork
+is designed for program resilience testing: it can be used to run programs
+"as if" the host was offline, observing their failure modes. This is
+particularly useful for test suites, where unintentional network dependencies
+may be undesirable.
+
+.B eatmynetwork
+is
+.B NOT
+a security tool. It does not guarantee strong network isolation;
+a motivated program may be able to circumvent its techniques.
+If strong isolation is desired or required, a full sandbox or
+other isolation mechanism
+.B MUST
+be used.
+
+.SH OPTIONS
+.TP
+.B \-V, \-\-version
+Print the version and exit.
+.TP
+.B \-h, \-\-help
+Print a help message and exit.
+
+.SH ENVIRONMENT
+.TP
+.B DEBUG
+When set, emit additional debugging information on stderr.
+
+.SH BUGS
+None known. File issues at: \fIhttps://github.com/trailofbits/eatmynetwork\fR
+
+.SH AUTHOR
+\fBeatmynetwork\fR is maintained by William Woodruff (<william @ trailofbits.com>).

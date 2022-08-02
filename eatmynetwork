@@ -1,0 +1,105 @@
+#!/bin/sh
+
+# eatmynetwork: run a program with (minimal) network sandboxing
+#
+# Usage: eatmynetwork <command> [arg ...]
+#
+# This is a program testing tool, NOT a security tool; you should not use it to
+# provide strong network sandboxing or isolation. Instead, you should use it
+# to test whether *trusted code* behaves correctly (including degrading
+# gracefully) in the absence of a network connection.
+
+set -e
+
+VERSION="1.0.0"
+
+installed() {
+  command -v "${1}"
+}
+
+dbg() {
+  [ -n "${DEBUG}" ] && >&2 echo "[+] ${1}"
+  return 0
+}
+
+err() {
+  >&2 echo "[!] ${1}"
+  return 0
+}
+
+die() {
+  err "${1}"
+  exit 1
+}
+
+_do_linux_bwrap() {
+  dbg "_do_linux_bwrap"
+
+  bwrap --dev-bind / / --unshare-net "${@}"
+}
+
+_do_linux_unshare() {
+  dbg "_do_linux_unshare"
+
+  unshare --map-root-user --net "${@}"
+}
+
+_do_linux() {
+  dbg "_do_linux"
+
+  # On Linux, we have a couple of techniques available. In order of decreasing
+  # preference:
+  # * unshare (rootless)
+  # * bwrap (rootless)
+  #
+  # There are probably others that would work (`ip netns exec`?), but they
+  # aren't implemented yet.
+
+  if installed unshare; then
+    _do_linux_unshare "${@}"
+  elif installed bwrap; then
+    _do_linux_bwrap "${@}"
+  else
+    die "No network sandboxing techniques discovered."
+  fi
+}
+
+_do_macos() {
+  dbg "_do_macos"
+
+  # NOTE: macOS has a built-in sandbox profile called no-network, which we could
+  # use instead of writing our own policy here. However, recent versions warn
+  # that the built-in policy is insecure. Which it is, but we don't care,
+  # since the boundary here is meant for testing only and not security.
+  #
+  # Instead of hacking around the built-in profile's warning, we simply
+  # replicate the core parts of the built-in profile with our own profile below.
+  profile="
+  (version 1)
+  (allow default)
+  (deny network*)
+  "
+
+  sandbox-exec -p "${profile}" "${@}"
+}
+
+if [ "${#}" -eq 0 ] || [ "${1}" = "--help" ] || [ "${1}" = "-h" ]; then
+  >&2 echo "Usage: eatmynetwork <command> [arg ...]"
+  >&2 echo "Example: eatmynetwork ping 8.8.8.8"
+  exit
+elif [ "${1}" = "--version" ] || [ "${1}" = "-V" ]; then
+  >&2 echo "eatmynetwork version ${VERSION}"
+  exit
+fi
+
+system=$(uname -s)
+if [ "${system}" = "Linux" ]; then
+  _do_linux "${@}"
+elif [ "${system}" = "Darwin" ]; then
+  _do_macos "${@}"
+else
+  err "Fatal: Unsupported host: ${system}"
+  err "Help us out by adding support for your platform!"
+  exit 1
+fi
+
