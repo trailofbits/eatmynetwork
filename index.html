@@ -1,0 +1,69 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+ "http://www.w3.org/TR/html4/loose.dtd">
+<html><head>
+<title>EATMYNETWORK man page</title>
+<meta name="generator" content="roffit">
+<STYLE type="text/css">
+P.level0 {
+ padding-left: 2em;
+}
+
+P.level1 {
+ padding-left: 4em;
+}
+
+P.level2 {
+ padding-left: 6em;
+}
+
+span.emphasis {
+ font-style: italic;
+}
+
+span.bold {
+ font-weight: bold;
+}
+
+span.manpage {
+ font-weight: bold;
+}
+
+h2.nroffsh {
+ background-color: #e0e0e0;
+}
+
+span.nroffip {
+ font-weight: bold;
+ font-size: 120%;
+ font-family: monospace;
+}
+
+p.roffit {
+ text-align: center;
+ font-size: 80%;
+}
+</STYLE>
+</head><body>
+
+<p class="level0">
+<p class="level0"><a name="NAME"></a><h2 class="nroffsh">NAME</h2>
+<p class="level0">eatmynetwork - run a program with (minimal) network sandboxing 
+<p class="level0"><a name="SYNOPSIS"></a><h2 class="nroffsh">SYNOPSIS</h2>
+<p class="level0"><span Class="bold">eatmynetwork</span> <span Class="emphasis">&lt;command&gt;</span> <span Class="emphasis">[arg ...]</span> 
+<p class="level0"><a name="DESCRIPTION"></a><h2 class="nroffsh">DESCRIPTION</h2>
+<p class="level0"><span Class="bold">eatmynetwork</span> takes a <span Class="emphasis">command</span> and optional arguments, and runs them with a minimal network sandbox, effectively pretending as if the host machine has no network connection. 
+<p class="level0"><span Class="bold">eatmynetwork</span> is designed for program resilience testing: it can be used to run programs "as if" the host was offline, observing their failure modes. This is particularly useful for test suites, where unintentional network dependencies may be undesirable. 
+<p class="level0"><span Class="bold">eatmynetwork</span> is <span Class="bold">NOT</span> a security tool. It does not guarantee strong network isolation; a motivated program may be able to circumvent its techniques. If strong isolation is desired or required, a full sandbox or other isolation mechanism <span Class="bold">MUST</span> be used. 
+<p class="level0"><a name="OPTIONS"></a><h2 class="nroffsh">OPTIONS</h2>
+<p class="level0">
+<p class="level0"><span Class="bold">-V, --version</span> Print the version and exit. 
+<p class="level0"><span Class="bold">-h, --help</span> Print a help message and exit. 
+<p class="level0"><a name="ENVIRONMENT"></a><h2 class="nroffsh">ENVIRONMENT</h2>
+<p class="level0">
+<p class="level0"><span Class="bold">DEBUG</span> When set, emit additional debugging information on stderr. 
+<p class="level0"><a name="BUGS"></a><h2 class="nroffsh">BUGS</h2>
+<p class="level0">None known. File issues at: <span Class="emphasis">https://github.com/trailofbits/eatmynetwork</span> 
+<p class="level0"><a name="AUTHOR"></a><h2 class="nroffsh">AUTHOR</h2>
+<p class="level0"><span Class="bold">eatmynetwork</span> is maintained by William Woodruff (&lt;william @ trailofbits.com&gt;). <p class="roffit">
+ This HTML page was made with <a href="http://daniel.haxx.se/projects/roffit/">roffit</a>.
+</body></html>
