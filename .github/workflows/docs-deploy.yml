@@ -5,6 +5,10 @@ on:
     branches:
       - main
 
+permissions:
+  # Used to push the docs to the `gh-pages` branch.
+  contents: write
+
 jobs:
   docs:
     runs-on: ubuntu-latest
