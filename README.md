@@ -1,7 +1,7 @@
 eatmynetwork
 ============
 
-[![CI](https://github.com/trailofbits/eatmynetwork/actions/workflows/ci.yml/badge.svg)](https://github.com/trailofbits/eatmynetwork/actions/workflows/ci.yml)
+[![Lint](https://github.com/trailofbits/eatmynetwork/actions/workflows/lint.yml/badge.svg)](https://github.com/trailofbits/eatmynetwork/actions/workflows/lint.yml)
 
 `eatmynetwork` is a small script for running programs with (minimal) network
 sandboxing.
