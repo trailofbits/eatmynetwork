@@ -1,0 +1,41 @@
+name: Documentation
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: setup
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y roffit
+
+      - name: build docs
+        run: |
+          mkdir public/
+          roffit < eatmynetwork.1 > public/index.html
+
+      - name: upload docs artifact
+        uses: actions/upload-pages-artifact@v1.0.7
+        with:
+          path: ./public/
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      # NOTE: Needed to push to the repository.
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v1.2.3
