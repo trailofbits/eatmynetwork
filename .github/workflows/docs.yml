@@ -22,7 +22,7 @@ jobs:
           roffit < eatmynetwork.1 > public/index.html
 
       - name: upload docs artifact
-        uses: actions/upload-pages-artifact@v1.0.8
+        uses: actions/upload-pages-artifact@v1.0.9
         with:
           path: ./public/
 
